@@ -1,4 +1,5 @@
 ﻿using Raylib_cs;
+using System.Diagnostics;
 
 namespace Pratyaksh_Engine
 {
@@ -9,6 +10,14 @@ namespace Pratyaksh_Engine
 
         private Game gameRef;
 
+        private Stopwatch stopwatch;
+
+        private float deltaTime = 0.0f;
+
+        private static Engine engineRef;
+
+        public static float DeltaTime { get => engineRef.deltaTime; }
+
         public Engine(int width, int height, string title, Game game)
         {
             Width = width;
@@ -16,14 +25,27 @@ namespace Pratyaksh_Engine
 
             gameRef = game;
 
+            engineRef = this;
+
+            stopwatch = new Stopwatch();
+
             Raylib.InitWindow(width, height, title);
         }
 
         public void Run()
         {
+            stopwatch.Start();
+            
+            double previousTime = stopwatch.Elapsed.TotalSeconds;
+
             while (!Raylib.WindowShouldClose())
             {
                 Input();
+
+                double currentTime = stopwatch.Elapsed.TotalSeconds;
+                deltaTime = (float)(currentTime - previousTime);
+                previousTime = currentTime;
+
                 Update();
                 Render();
             }

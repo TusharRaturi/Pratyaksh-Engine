@@ -4,31 +4,36 @@ namespace Pratyaksh_Engine
 {
     public class Box : GORect
     {
-        private bool test = false;
+        private float velocityY = 0.0f;
+        private float mass = 1.0f;
 
-        public Box(float x, float y, float sizeX, float sizeY, Color color)
+        private GORect collider;
+
+        public Box(float x, float y, float sizeX, float sizeY, Color color, float mass, GORect collider)
         {
             Transform = new Transform(x, y);
             SizeX = sizeX;
             SizeY = sizeY;
             Color = color;
+
+            this.collider = collider;
+            this.mass = mass;
         }
 
         public override void Input()
         {
-            if (Raylib.IsKeyDown(KeyboardKey.Space))
-            {
-                test = true;
-            }
-
         }
 
         public override void Update()
         {
             base.Update();
 
-            if (!test) Transform.X += 0.005f;
-            else Transform.Y += 0.005f;
+            velocityY += 9.8f * mass * Engine.DeltaTime;
+
+            if (Physics.CheckRectCollision(collider, this) && velocityY > 0)
+                velocityY = -velocityY * 0.75f;
+            
+            Transform.Y += velocityY * Engine.DeltaTime;
         }
     }
 }
