@@ -7,9 +7,14 @@ public class TestGame : Game
     {
         GORect floor = new GORect(0, 550, 600, 50);
         GameObjects.Add(floor);
-        GameObjects.Add(new Box(50, 50, 50, 50, Color.Red, 100.0f, floor));
-        GameObjects.Add(new Box(500, 50, 50, 50, Color.Red, 50.0f, floor));
-        //GameObjects.Add(new GORect(50, 100, 50, 50, Color.Blue));
+
+        Player player = new Player();
+        GameObjects.Add(player);
+
+        GameObjects.Add(new Box(50, 50, 50, 50, 10, Color.Red, 100.0f, floor, player));
+        GameObjects.Add(new Box(500, 50, 50, 50, 35, Color.Red, 50.0f, floor, player));
+
+        GameObjects.Add(new BoxSpawner(3.0f, floor, player));
     }
 
     public override void Input()

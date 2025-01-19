@@ -1,6 +1,4 @@
-﻿using Raylib_cs;
-
-namespace Pratyaksh_Engine
+﻿namespace Pratyaksh_Engine
 {
     internal class Program
     {
